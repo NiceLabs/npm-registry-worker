@@ -1,15 +1,12 @@
-// The is GitHub Personal Token as `read:package` permission
+// (required) The is GitHub Personal Token as `read:package` permission
 declare const API_TOKEN: string
-// If the variable exists, access root path redirect to target
+// (optional) If the variable exists, access root path redirect to target
 declare const HOMEPAGE_URL: string
-// Limit prefix string
-declare const PREFIX: string
-
-const ALLOWED_METHODS = ['GET', 'POST']
-const METHOD_NOT_ALLOWED = new Response('Method Not Allowed', { status: 405 })
+// (optional) Limit npm scope
+declare const NPM_SCOPE: string
 
 export async function handleRequest(request: Request): Promise<Response> {
-  if (!ALLOWED_METHODS.includes(request.method)) return METHOD_NOT_ALLOWED
+  if (request.method !== 'GET') return new Response(JSON.stringify({ error: 'Method Not Allowed' }), { status: 405 })
   const url = new URL(request.url)
   const host = url.host
   url.host = 'npm.pkg.github.com'
@@ -18,18 +15,25 @@ export async function handleRequest(request: Request): Promise<Response> {
     return Response.redirect(HOMEPAGE_URL, 302)
   } else if (url.pathname.startsWith('/download')) {
     return fetch(url.toString(), { headers })
-  } else if (url.pathname.startsWith(PREFIX)) {
+  } else if (limitScope(url.pathname)) {
     const response = await fetch(url.toString(), { headers })
     const text = await response.text()
     const modified = text.replaceAll(url.host, host)
     return new Response(modified, response)
   }
-  return METHOD_NOT_ALLOWED
+  return new Response(JSON.stringify({ error: 'Not Found' }), { status: 404 })
+}
+
+function limitScope(pathname: string) {
+  if (typeof NPM_SCOPE !== 'string') return true
+  const scope = pathname.slice(1, pathname.indexOf('%2F'))
+  return scope === NPM_SCOPE
 }
 
 function handleHeaders(headers: Headers) {
   headers = new Headers(headers)
-  headers.set('Accept-Encoding', 'gzip')
-  headers.set('Authorization', `Bearer ${API_TOKEN}`)
+  headers.set('accept', 'application/json')
+  headers.set('accept-encoding', 'gzip')
+  headers.set('authorization', `Bearer ${API_TOKEN}`)
   return headers
 }
