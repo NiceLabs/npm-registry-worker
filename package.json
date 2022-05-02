@@ -1,6 +1,7 @@
 {
   "name": "@nice-labs/npm-registry-worker",
   "version": "1.0.0",
+  "main": "./dist/worker.js",
   "scripts": {
     "build": "webpack",
     "deploy": "wrangler publish",
