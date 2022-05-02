@@ -7,8 +7,9 @@ workers_dev = true
 compatibility_date = "2022-04-25"
 
 [vars]
-API_TOKEN = "GitHub Personal Token"
-HOMEPAGE_URL = "https://github.com/NiceLabs"
+API_TOKEN = "GitHub Personal Token" # required
+HOMEPAGE_URL = "https://github.com/NiceLabs" # optional
+NPM_SCOPE = "@nicelabs" # optional
 
 [build]
 command = "npm ci && npm run build"
