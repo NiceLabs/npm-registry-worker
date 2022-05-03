@@ -15,6 +15,8 @@ export async function handleRequest(request: Request): Promise<Response> {
     return Response.redirect(HOMEPAGE_URL, 302)
   } else if (url.pathname.startsWith('/download')) {
     return fetch(url.toString(), { headers })
+  } else if (url.pathname === '/-/ping') {
+    return new Response('', { status: 204 })
   } else if (limitScope(url.pathname)) {
     const response = await fetch(url.toString(), { headers })
     const text = await response.text()
