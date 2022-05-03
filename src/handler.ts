@@ -6,7 +6,7 @@ declare const HOMEPAGE_URL: string
 declare const NPM_SCOPE: string
 
 export async function handleRequest(request: Request): Promise<Response> {
-  if (request.method !== 'GET') return new Response(JSON.stringify({ error: 'Method Not Allowed' }), { status: 405 })
+  if (request.method !== 'GET') return makeError('Method Not Allowed', 405)
   const url = new URL(request.url)
   const host = url.host
   url.host = 'npm.pkg.github.com'
@@ -17,13 +17,15 @@ export async function handleRequest(request: Request): Promise<Response> {
     return fetch(url.toString(), { headers })
   } else if (url.pathname === '/-/ping') {
     return new Response('', { status: 204 })
+  } else if (url.pathname.startsWith('/-/')) {
+    return makeError('Method Not Allowed', 405)
   } else if (limitScope(url.pathname)) {
     const response = await fetch(url.toString(), { headers })
     const text = await response.text()
     const modified = text.replaceAll(url.host, host)
     return new Response(modified, response)
   }
-  return new Response(JSON.stringify({ error: 'Not Found' }), { status: 404 })
+  return makeError('Not Found', 404)
 }
 
 function limitScope(pathname: string) {
@@ -38,4 +40,8 @@ function handleHeaders(headers: Headers) {
   headers.set('accept-encoding', 'gzip')
   headers.set('authorization', `Bearer ${API_TOKEN}`)
   return headers
+}
+
+function makeError(error: unknown, status: number) {
+  return new Response(JSON.stringify({ error }), { status })
 }
