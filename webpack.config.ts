@@ -1,11 +1,10 @@
-import path from 'node:path'
 import type { Configuration } from 'webpack'
 
 const configure: Configuration = {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
-  output: { filename: 'worker.js', path: path.join(__dirname, 'dist') },
-  resolve: { extensions: ['.ts', '.tsx', '.js'] },
+  devtool: false,
+  entry: './worker.ts',
+  output: { filename: 'worker.js', path: __dirname },
   module: { rules: [{ test: /\.ts$/, loader: require.resolve('ts-loader') }] },
 }
 

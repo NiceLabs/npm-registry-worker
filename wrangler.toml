@@ -1,0 +1,12 @@
+name = "npm-registry"
+main = "worker.js"
+usage_model = "bundled"
+compatibility_date = "2022-04-25"
+
+# [vars]
+# API_TOKEN = "GitHub Personal Token" # required
+# HOMEPAGE_URL = "https://github.com/NiceLabs" # optional
+# NPM_SCOPE = "@nicelabs" # optional
+
+[build]
+command = "npm run build"

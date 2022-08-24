@@ -1,11 +1,15 @@
 // (required) The is GitHub Personal Token as `read:package` permission
 declare const API_TOKEN: string
-// (optional) If the variable exists, access root path redirect to target
+// (optional) If exists, access root path redirect to homepage
 declare const HOMEPAGE_URL: string
-// (optional) Limit npm scope
+// (optional) If exists, limit npm scope
 declare const NPM_SCOPE: string
 
-export async function handleRequest(request: Request): Promise<Response> {
+addEventListener('fetch', (event) => {
+  event.respondWith(handleRequest(event.request))
+})
+
+async function handleRequest(request: Request): Promise<Response> {
   if (request.method !== 'GET') return makeError('Method Not Allowed', 405)
   const url = new URL(request.url)
   const host = url.host
