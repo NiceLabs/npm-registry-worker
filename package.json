@@ -1,20 +1,13 @@
 {
   "name": "@nice-labs/npm-registry-worker",
   "private": true,
-  "scripts": {
-    "build": "webpack",
-    "format": "prettier --write ."
-  },
   "devDependencies": {
     "@cloudflare/workers-types": "^3.14.1",
-    "@cloudflare/wrangler": "^1.19.12",
     "@types/node": "^18.7.13",
-    "prettier": "^2.7.1",
     "ts-loader": "^9.3.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0",
-    "wrangler": "^2.0.27"
+    "webpack-cli": "^4.10.0"
   }
 }

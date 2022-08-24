@@ -26,7 +26,6 @@ Enter a secret value: ***
 $ wrangler publish --name npm-registry
 Running custom build: npm run build
 ...
-Total Upload: 1.90 KiB / gzip: 0.76 KiB
 Uploaded npm-registry (2.88 sec)
 Published npm-registry (1.75 sec)
   https://npm-registry.***.workers.dev

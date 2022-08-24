@@ -9,4 +9,4 @@ compatibility_date = "2022-04-25"
 # NPM_SCOPE = "@nicelabs" # optional
 
 [build]
-command = "npm run build"
+command = "npx webpack"
