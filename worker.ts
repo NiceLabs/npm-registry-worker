@@ -40,9 +40,9 @@ function limitScope(pathname: string) {
 
 function handleHeaders(headers: Headers) {
   headers = new Headers(headers)
-  headers.set('accept', 'application/json')
-  headers.set('accept-encoding', 'gzip')
-  headers.set('authorization', `Bearer ${API_TOKEN}`)
+  headers.set('Accept', 'application/json')
+  headers.set('Accept-Encoding', 'gzip')
+  headers.set('Authorization', `Bearer ${API_TOKEN}`)
   return headers
 }
 
